@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= listing.title %> | Wanderlust</title>
+    <link rel="stylesheet" href="/css/show.css">
+</head>
+<body>
+    <header>
+        <nav class="topbar" aria-label="Main navigation">
+            <a class="brand" href="/listing">Wanderlust</a>
+            <a class="back-link" href="/listing">Explore stays</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1><%= listing.title %></h1>
+        <p class="location">
+            <%= [listing.location, listing.country].filter(Boolean).join(", ") || "Location not specified" %>
+        </p>
+
+        <img
+            class="photo"
+            src="<%= listing.image || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400' %>"
+            alt="<%= listing.title %>"
+        >
+
+        <section class="details-layout" aria-label="Stay details and booking information">
+            <div>
+                <div class="host-summary">
+                    <h2>Stay at <%= listing.title %></h2>
+                    <p>Discover this place in <%= [listing.location, listing.country].filter(Boolean).join(", ") || "a destination waiting to be explored" %>.</p>
+                </div>
+                <p class="description"><%= listing.discription || "The host has not added a description for this stay yet." %></p>
+            </div>
+
+            <aside class="booking-card" aria-label="Price information">
+                <p class="price">₹<%= Number(listing.price || 0).toLocaleString("en-IN") %> <span>night</span></p>
+                <a href="/listing">Explore more stays</a>
+                <p class="booking-note">Price shown is per night. Contact the host to confirm availability and reservation details.</p>
+            </aside>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+.listing-form {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 5%);
+}
+
+.listing-form label {
+    margin-bottom: 1rem;
+}
+
+.listing-form input,
+.listing-form textarea {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.65rem;
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.listing-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.form-actions button {
+    width: auto;
+    padding: 0.7rem 1rem;
+}
+
+.cancel-link {
+    color: #555;
+    font-weight: 650;
+}
+
+.form-error {
+    margin: 0 0 1rem;
+    color: #a32132;
+}
