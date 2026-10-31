@@ -66,6 +66,72 @@ async function main() {
         }
     });
 
+    app.get("/listing/:id/edit", async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(404).send("Stay not found");
+        }
+
+        try {
+            const listing = await Listing.findById(id);
+            if (!listing) {
+                return res.status(404).send("Stay not found");
+            }
+
+            res.render("listings/edit", { listing, error: null, formData: listing });
+        } catch (error) {
+            console.error("Error loading listing edit form:", error);
+            res.status(500).send("Error loading listing edit form");
+        }
+    });
+
+    app.patch("/listing/:id", async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(404).send("Stay not found");
+        }
+
+        const updates = {
+            title: req.body.title,
+            discription: req.body.discription,
+            image: req.body.image,
+            price: req.body.price,
+            location: req.body.location,
+            country: req.body.country
+        };
+
+        try {
+            const listing = await Listing.findByIdAndUpdate(id, updates, {
+                new: true,
+                runValidators: true
+            });
+
+            if (!listing) {
+                return res.status(404).send("Stay not found");
+            }
+
+            res.redirect(`/listing/${listing._id}`);
+        } catch (error) {
+            if (error.name === "ValidationError" || error.name === "CastError") {
+                const listing = await Listing.findById(id);
+                if (!listing) {
+                    return res.status(404).send("Stay not found");
+                }
+
+                return res.status(400).render("listings/edit", {
+                    listing,
+                    error: error.message,
+                    formData: updates
+                });
+            }
+
+            console.error("Error updating listing:", error);
+            res.status(500).send("Error updating listing");
+        }
+    });
+
     app.get("/listing/:id", async (req, res) => {
         const { id } = req.params;
 

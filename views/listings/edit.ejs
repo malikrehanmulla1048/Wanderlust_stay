@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit <%= listing.title %> | Wanderlust</title>
+    <link rel="stylesheet" href="/css/listings.css">
+    <link rel="stylesheet" href="/css/new.css">
+    <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <p class="brand">Wanderlust</p>
+            <h1>Edit stay details</h1>
+            <p class="intro">Update the information travelers see about this stay.</p>
+        </div>
+    </header>
+
+    <main>
+        <form class="listing-form" action="/listing/<%= listing._id %>?_method=PATCH" method="POST">
+            <% if (error) { %>
+                <p class="form-error" role="alert"><%= error %></p>
+            <% } %>
+
+            <label>
+                Title
+                <input type="text" name="title" value="<%= formData.title || '' %>" required>
+            </label>
+
+            <label>
+                Description
+                <textarea name="discription" rows="5"><%= formData.discription || '' %></textarea>
+            </label>
+
+            <label>
+                Image URL
+                <input type="url" name="image" value="<%= formData.image || '' %>" placeholder="https://example.com/stay.jpg">
+            </label>
+
+            <label>
+                Price per night (₹)
+                <input type="number" name="price" value="<%= formData.price ?? '' %>" min="0" step="0.01">
+            </label>
+
+            <label>
+                Location
+                <input type="text" name="location" value="<%= formData.location || '' %>">
+            </label>
+
+            <label>
+                Country
+                <input type="text" name="country" value="<%= formData.country || '' %>">
+            </label>
+
+            <div class="form-actions">
+                <button type="submit">Save changes</button>
+                <a class="cancel-link" href="/listing/<%= listing._id %>">Cancel</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

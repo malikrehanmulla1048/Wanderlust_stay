@@ -1,0 +1,13 @@
+.listing-form {
+    margin-top: 0.5rem;
+}
+
+.listing-form input:focus,
+.listing-form textarea:focus {
+    border-color: #e34b5f;
+    outline: 3px solid rgb(227 75 95 / 16%);
+}
+
+.form-actions button {
+    min-width: 150px;
+}

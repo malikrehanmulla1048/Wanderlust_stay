@@ -37,6 +37,7 @@
 
             <aside class="booking-card" aria-label="Price information">
                 <p class="price">₹<%= Number(listing.price || 0).toLocaleString("en-IN") %> <span>night</span></p>
+                <a class="edit-listing-link" href="/listing/<%= listing._id %>/edit">Edit stay details</a>
                 <a href="/listing">Explore more stays</a>
                 <p class="booking-note">Price shown is per night. Contact the host to confirm availability and reservation details.</p>
             </aside>

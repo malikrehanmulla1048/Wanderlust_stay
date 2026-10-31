@@ -133,6 +133,15 @@ h2 {
     text-decoration: none;
 }
 
+.booking-card .edit-listing-link {
+    margin-bottom: 0.75rem;
+    background: #333;
+}
+
+.booking-card .edit-listing-link:hover {
+    background: #1e1e1e;
+}
+
 .booking-note {
     margin: 0.85rem 0 0;
     color: #666;
