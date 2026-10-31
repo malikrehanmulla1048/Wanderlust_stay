@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= listing.title %> | Wanderlust</title>
     <link rel="stylesheet" href="/css/show.css">
+    <link rel="stylesheet" href="/css/delete-confirm.css">
 </head>
 <body>
     <header>
@@ -39,9 +40,25 @@
                 <p class="price">₹<%= Number(listing.price || 0).toLocaleString("en-IN") %> <span>night</span></p>
                 <a class="edit-listing-link" href="/listing/<%= listing._id %>/edit">Edit stay details</a>
                 <a href="/listing">Explore more stays</a>
+                <button class="delete-listing-button" type="button" data-open-delete-dialog>
+                    Delete stay
+                </button>
                 <p class="booking-note">Price shown is per night. Contact the host to confirm availability and reservation details.</p>
             </aside>
         </section>
     </main>
+    <dialog class="delete-dialog" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-message">
+        <h2 id="delete-dialog-title">Delete this stay?</h2>
+        <p id="delete-dialog-message">
+            This will permanently delete <strong><%= listing.title %></strong>. This action cannot be undone.
+        </p>
+        <div class="delete-dialog-actions">
+            <button type="button" class="cancel-delete-button" data-close-delete-dialog>Cancel</button>
+            <form action="/listing/<%= listing._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="confirm-delete-button">Yes, delete stay</button>
+            </form>
+        </div>
+    </dialog>
+    <script src="/js/delete-confirm.js" defer></script>
 </body>
 </html>

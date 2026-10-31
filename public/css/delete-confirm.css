@@ -1,0 +1,71 @@
+.booking-card .delete-listing-button {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border: 0;
+    border-radius: 8px;
+    background: #a32132;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.booking-card .delete-listing-button:hover,
+.confirm-delete-button:hover {
+    background: #801927;
+}
+
+.delete-dialog {
+    width: min(440px, calc(100% - 2rem));
+    padding: 1.5rem;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 16px 48px rgb(0 0 0 / 25%);
+}
+
+.delete-dialog::backdrop {
+    background: rgb(0 0 0 / 55%);
+}
+
+.delete-dialog h2 {
+    margin: 0;
+}
+
+.delete-dialog p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.delete-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.delete-dialog-actions button {
+    min-height: 42px;
+    padding: 0.65rem 0.9rem;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.cancel-delete-button {
+    background: #eee;
+    color: #333;
+}
+
+.cancel-delete-button:hover {
+    background: #ddd;
+}
+
+.confirm-delete-button {
+    background: #a32132;
+    color: #fff;
+}

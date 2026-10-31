@@ -152,6 +152,25 @@ async function main() {
         }
     });
 
+    app.delete("/listing/:id", async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(404).send("Stay not found");
+        }
+
+        try {
+            const listing = await Listing.findByIdAndDelete(id);
+            if (!listing) {
+                return res.status(404).send("Stay not found");
+            }
+
+            res.redirect("/listing");
+        } catch (error) {
+            console.error("Error deleting listing:", error);
+            res.status(500).send("Error deleting listing");
+        }
+    });
 
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
