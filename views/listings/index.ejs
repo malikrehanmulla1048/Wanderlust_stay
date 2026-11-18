@@ -1,77 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stays | Wanderlust</title>
-    <link rel="stylesheet" href="/css/listings.css">
-</head>
-<body>
-    <header>
-        <div class="header-content">
-            <p class="brand">Wanderlust</p>
-            <h1>Find your next stay</h1>
-            <p class="intro">Browse all available stays and estimate the cost for your dates.</p>
-            <a class="create-listing-link" href="/listing/new">Create a new stay</a>
-        </div>
-    </header>
+<section class="page-intro">
+    <div class="header-content">
+        <p class="brand">Wanderlust</p>
+        <h1>Find your next stay</h1>
+        <p class="intro">Browse all available stays and estimate the cost for your dates.</p>
+        <a class="create-listing-link" href="/listing/new">Create a new stay</a>
+    </div>
+</section>
 
-    <main>
-        <% if (data.length === 0) { %>
-            <p class="empty-state">No stays are available right now. Please check back soon.</p>
-        <% } else { %>
-            <section class="listing-grid" aria-label="Available stays">
-                <% data.forEach((listing) => { %>
-                    <article class="listing-card">
-                        <a class="listing-link" href="/listing/<%= listing._id %>" aria-label="View details for <%= listing.title %>">
-                            <img
-                                class="listing-image"
-                                src="<%= listing.image || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000' %>"
-                                alt="<%= listing.title %>"
-                                loading="lazy"
-                            >
-                            <div class="listing-content">
-                                <p class="location">
-                                    <%= [listing.location, listing.country].filter(Boolean).join(", ") || "Location not specified" %>
-                                </p>
-                                <h2><%= listing.title %></h2>
-                                <p class="description"><%= listing.discription || "More details about this stay will be available soon." %></p>
-                            </div>
-                        </a>
-
+<main>
+    <% if (data.length === 0) { %>
+        <p class="empty-state">No stays are available right now. Please check back soon.</p>
+    <% } else { %>
+        <section class="listing-grid" aria-label="Available stays">
+            <% data.forEach((listing) => { %>
+                <article class="listing-card">
+                    <a class="listing-link" href="/listing/<%= listing._id %>" aria-label="View details for <%= listing.title %>">
+                        <img
+                            class="listing-image"
+                            src="<%= listing.image || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000' %>"
+                            alt="<%= listing.title %>"
+                            loading="lazy"
+                        >
                         <div class="listing-content">
-                            <a class="details-link" href="/listing/<%= listing._id %>">View stay details</a>
-                            <div class="booking-box">
-                                <div class="price">
-                                    ₹<%= Number(listing.price || 0).toLocaleString("en-IN") %>
-                                    <span>/ night</span>
-                                </div>
-                                <form class="booking-form" data-price="<%= Number(listing.price) || 0 %>">
-                                    <div class="booking-fields">
-                                        <label>
-                                            Check-in
-                                            <input type="date" name="checkIn" required>
-                                        </label>
-                                        <label>
-                                            Check-out
-                                            <input type="date" name="checkOut" required>
-                                        </label>
-                                        <label>
-                                            Guests
-                                            <input type="number" name="guests" min="1" value="1" required>
-                                        </label>
-                                    </div>
-                                    <button type="submit">Calculate estimate</button>
-                                    <p class="estimate" aria-live="polite"></p>
-                                    <p class="booking-note">Estimate is based on the nightly price and does not confirm a reservation.</p>
-                                </form>
-                            </div>
+                            <p class="location">
+                                <%= [listing.location, listing.country].filter(Boolean).join(", ") || "Location not specified" %>
+                            </p>
+                            <h2><%= listing.title %></h2>
+                            <p class="description"><%= listing.discription || "More details about this stay will be available soon." %></p>
                         </div>
-                    </article>
-                <% }); %>
-            </section>
-        <% } %>
-    </main>
-    <script src="/js/listings.js" defer></script>
-</body>
-</html>
+                    </a>
+
+                    <div class="listing-content">
+                        <a class="details-link" href="/listing/<%= listing._id %>">View stay details</a>
+                        <div class="booking-box">
+                            <div class="price">
+                                ₹<%= Number(listing.price || 0).toLocaleString("en-IN") %>
+                                <span>/ night</span>
+                            </div>
+                            <form class="booking-form" data-price="<%= Number(listing.price) || 0 %>">
+                                <div class="booking-fields">
+                                    <label>
+                                        Check-in
+                                        <input type="date" name="checkIn" required>
+                                    </label>
+                                    <label>
+                                        Check-out
+                                        <input type="date" name="checkOut" required>
+                                    </label>
+                                    <label>
+                                        Guests
+                                        <input type="number" name="guests" min="1" value="1" required>
+                                    </label>
+                                </div>
+                                <button type="submit">Calculate estimate</button>
+                                <p class="estimate" aria-live="polite"></p>
+                                <p class="booking-note">Estimate is based on the nightly price and does not confirm a reservation.</p>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            <% }); %>
+        </section>
+    <% } %>
+</main>

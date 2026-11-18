@@ -1,0 +1,15 @@
+<header class="site-header">
+    <nav class="site-header-inner" aria-label="Main navigation">
+        <a class="site-brand" href="/listing">Wanderlust</a>
+        <div class="site-nav-links">
+            <a class="site-nav-link" href="/listing/new">Create a stay</a>
+            <% if (showHomeIcon) { %>
+                <a class="home-link" href="/listing" aria-label="Go to all stays" title="Go to all stays">
+                    <img class="home-icon" src="/images/home.svg" alt="">
+                </a>
+            <% } else { %>
+                <a class="site-nav-link" href="/listing">Browse stays</a>
+            <% } %>
+        </div>
+    </nav>
+</header>

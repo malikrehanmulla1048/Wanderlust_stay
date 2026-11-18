@@ -13,7 +13,7 @@ body {
     margin: 0;
 }
 
-header {
+.page-intro {
     padding: 2.25rem 1.25rem;
     background: #fff;
     border-bottom: 1px solid #e8e8e8;

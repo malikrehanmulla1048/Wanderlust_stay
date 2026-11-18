@@ -1,62 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a stay | Wanderlust</title>
-    <link rel="stylesheet" href="/css/listings.css">
-    <link rel="stylesheet" href="/css/new.css">
-</head>
-<body>
-    <header>
-        <div class="header-content">
-            <p class="brand">Wanderlust</p>
-            <h1>Create a new stay</h1>
-            <p class="intro">Add the details for a stay to share with travelers.</p>
+<section class="page-intro">
+    <div class="header-content">
+        <p class="brand">Wanderlust</p>
+        <h1>Create a new stay</h1>
+        <p class="intro">Add the details for a stay to share with travelers.</p>
+    </div>
+</section>
+
+<main>
+    <form class="listing-form" action="/listing" method="POST">
+        <% if (error) { %>
+            <p class="form-error" role="alert"><%= error %></p>
+        <% } %>
+
+        <label>
+            Title
+            <input type="text" name="title" value="<%= formData.title || '' %>" required>
+        </label>
+
+        <label>
+            Description
+            <textarea name="discription" rows="5"><%= formData.discription || '' %></textarea>
+        </label>
+
+        <label>
+            Image URL
+            <input type="url" name="image" value="<%= formData.image || '' %>" placeholder="https://example.com/stay.jpg">
+        </label>
+
+        <label>
+            Price per night (₹)
+            <input type="number" name="price" value="<%= formData.price || '' %>" min="0" step="0.01">
+        </label>
+
+        <label>
+            Location
+            <input type="text" name="location" value="<%= formData.location || '' %>">
+        </label>
+
+        <label>
+            Country
+            <input type="text" name="country" value="<%= formData.country || '' %>">
+        </label>
+
+        <div class="form-actions">
+            <button type="submit">Add stay</button>
+            <a class="cancel-link" href="/listing">Cancel</a>
         </div>
-    </header>
-
-    <main>
-        <form class="listing-form" action="/listing" method="POST">
-            <% if (error) { %>
-                <p class="form-error" role="alert"><%= error %></p>
-            <% } %>
-
-            <label>
-                Title
-                <input type="text" name="title" value="<%= formData.title || '' %>" required>
-            </label>
-
-            <label>
-                Description
-                <textarea name="discription" rows="5"><%= formData.discription || '' %></textarea>
-            </label>
-
-            <label>
-                Image URL
-                <input type="url" name="image" value="<%= formData.image || '' %>" placeholder="https://example.com/stay.jpg">
-            </label>
-
-            <label>
-                Price per night (₹)
-                <input type="number" name="price" value="<%= formData.price || '' %>" min="0" step="0.01">
-            </label>
-
-            <label>
-                Location
-                <input type="text" name="location" value="<%= formData.location || '' %>">
-            </label>
-
-            <label>
-                Country
-                <input type="text" name="country" value="<%= formData.country || '' %>">
-            </label>
-
-            <div class="form-actions">
-                <button type="submit">Add stay</button>
-                <a class="cancel-link" href="/listing">Cancel</a>
-            </div>
-        </form>
-    </main>
-</body>
-</html>
+    </form>
+</main>

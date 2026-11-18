@@ -13,63 +13,11 @@ body {
     margin: 0;
 }
 
-header {
-    border-bottom: 1px solid #eee;
-}
-
-.topbar,
 main {
     width: min(1120px, 100%);
     margin: 0 auto;
     padding-right: 1.25rem;
     padding-left: 1.25rem;
-}
-
-.topbar {
-    display: flex;
-    min-height: 76px;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.brand {
-    color: #e34b5f;
-    font-size: 1.15rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-
-.home-link {
-    display: inline-grid;
-    width: 44px;
-    height: 44px;
-    place-items: center;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: background-color 180ms ease;
-}
-
-.home-icon {
-    display: block;
-    width: 25px;
-    height: 25px;
-}
-
-.home-link:hover,
-.home-link:focus-visible {
-    background: #f3f3f3;
-}
-
-.home-link.is-turning {
-    animation: house-turn 450ms ease-in-out;
-}
-
-@keyframes house-turn {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 main {

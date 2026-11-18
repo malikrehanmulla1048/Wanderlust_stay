@@ -4,9 +4,35 @@ const mongoose = require('mongoose');
 const port = process.env.PORT || 3000;
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const path = require("path");
+const ejs = require("ejs");
 const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
+function renderPage(res, viewName, locals, layoutOptions) {
+    const viewPath = path.join(__dirname, "views", `${viewName}.ejs`);
+
+    return new Promise((resolve, reject) => {
+        ejs.renderFile(viewPath, locals, (viewError, body) => {
+            if (viewError) {
+                return reject(viewError);
+            }
+
+            res.render("layout/boilerplate", {
+                ...layoutOptions,
+                body,
+                showHomeIcon: layoutOptions.showHomeIcon || false
+            }, (layoutError, html) => {
+                if (layoutError) {
+                    return reject(layoutError);
+                }
+
+                res.send(html);
+                resolve();
+            });
+        });
+    });
+}
 
 
 
@@ -21,23 +47,37 @@ async function main() {
     app.use(express.static(path.join(__dirname +"/public/css")));
     app.use(express.static(path.join(__dirname +"/public/js")));
     app.use(methodOverride('_method'));
+    app.use("ejs",ejsMate)
+
 
     app.get("/", (req, res) => {
-        res.send("the app is working ::");
+        res.redirect("/listing");
     });
 
     app.get("/listing", async (req, res) => {
         try {
             const data = await Listing.find({});
-            res.render("listings/index", { data });
+            await renderPage(res, "listings/index", { data }, {
+                title: "Stays | Wanderlust",
+                stylesheets: ["/css/listings.css"],
+                scripts: ["/js/listings.js"]
+            });
         } catch (error) {
             console.error("Error fetching listings:", error);
             res.status(500).send("Error fetching listings");
         }
     });
 
-    app.get("/listing/new", (req, res) => {
-        res.render("listings/new", { error: null, formData: {} });
+    app.get("/listing/new", async (req, res) => {
+        try {
+            await renderPage(res, "listings/new", { error: null, formData: {} }, {
+                title: "Create a stay | Wanderlust",
+                stylesheets: ["/css/listings.css", "/css/new.css"]
+            });
+        } catch (error) {
+            console.error("Error loading new listing form:", error);
+            res.status(500).send("Error loading new listing form");
+        }
     });
 
     app.post("/listing", async (req, res) => {
@@ -55,10 +95,18 @@ async function main() {
             res.redirect(`/listing/${listing._id}`);
         } catch (error) {
             if (error.name === "ValidationError") {
-                return res.status(400).render("listings/new", {
-                    error: error.message,
-                    formData: req.body
-                });
+                try {
+                    return await renderPage(res.status(400), "listings/new", {
+                        error: error.message,
+                        formData: req.body
+                    }, {
+                        title: "Create a stay | Wanderlust",
+                        stylesheets: ["/css/listings.css", "/css/new.css"]
+                    });
+                } catch (renderError) {
+                    console.error("Error rendering new listing form:", renderError);
+                    return res.status(500).send("Error rendering new listing form");
+                }
             }
 
             console.error("Error creating listing:", error);
@@ -79,7 +127,10 @@ async function main() {
                 return res.status(404).send("Stay not found");
             }
 
-            res.render("listings/edit", { listing, error: null, formData: listing });
+            await renderPage(res, "listings/edit", { listing, error: null, formData: listing }, {
+                title: `Edit ${listing.title} | Wanderlust`,
+                stylesheets: ["/css/listings.css", "/css/new.css", "/css/edit.css"]
+            });
         } catch (error) {
             console.error("Error loading listing edit form:", error);
             res.status(500).send("Error loading listing edit form");
@@ -120,11 +171,19 @@ async function main() {
                     return res.status(404).send("Stay not found");
                 }
 
-                return res.status(400).render("listings/edit", {
-                    listing,
-                    error: error.message,
-                    formData: updates
-                });
+                try {
+                    return await renderPage(res.status(400), "listings/edit", {
+                        listing,
+                        error: error.message,
+                        formData: updates
+                    }, {
+                        title: `Edit ${listing.title} | Wanderlust`,
+                        stylesheets: ["/css/listings.css", "/css/new.css", "/css/edit.css"]
+                    });
+                } catch (renderError) {
+                    console.error("Error rendering listing edit form:", renderError);
+                    return res.status(500).send("Error rendering listing edit form");
+                }
             }
 
             console.error("Error updating listing:", error);
@@ -145,7 +204,12 @@ async function main() {
                 return res.status(404).send("Stay not found");
             }
 
-            res.render("listings/show", { listing });
+            await renderPage(res, "listings/show", { listing }, {
+                title: `${listing.title} | Wanderlust`,
+                stylesheets: ["/css/show.css", "/css/delete-confirm.css"],
+                scripts: ["/js/delete-confirm.js", "/js/home-icon.js"],
+                showHomeIcon: true
+            });
         } catch (error) {
             console.error("Error fetching listing:", error);
             res.status(500).send("Error fetching listing");
